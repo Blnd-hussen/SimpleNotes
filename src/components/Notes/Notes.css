@@ -1,0 +1,12 @@
+.notes {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+
+
+  padding: 1.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+}
