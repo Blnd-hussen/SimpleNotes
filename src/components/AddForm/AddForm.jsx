@@ -1,25 +1,10 @@
 import { useState, useEffect } from "react";
-// import browser from "webextension-polyfill";
+import PropTypes from "prop-types";
+import browser from "webextension-polyfill";
 
 import "./AddForm.css";
 
 function AddForm(props) {
-  const [formData, setFormData] = useState({ title: "", body: "" });
-  const [disabled, setDisabled] = useState(false);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const action = event.nativeEvent.submitter.name;
-
-    if (action === "save") {
-      console.log("save is not implemeanted yet");
-      props.onClose();
-    } else if (action === "cancel") {
-      props.onClose();
-    }
-  };
-
   const getDate = () => {
     const date = new Date()
       .toJSON()
@@ -30,17 +15,45 @@ function AddForm(props) {
 
     const [hour, AMPM] = new Date()
       .toLocaleString("en-US", {
-        hour: "numeric",
+        hour: "2-digit",
         hour12: true,
       })
       .split(" ");
 
     const minute = new Date().toLocaleString("en-US", {
-      minute: "numeric",
+      minute: "2-digit",
       hour12: true,
     });
 
     return `${date} - ${hour}:${minute} ${AMPM}`;
+  };
+
+  const [formData, setFormData] = useState({
+    title: "",
+    body: "",
+    pinStatus: false,
+    date: getDate(),
+  });
+  const [disabled, setDisabled] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const action = event.nativeEvent.submitter.name;
+
+    if (action === "save") {
+      browser.storage.local
+        .set({ note: formData })
+        .then(() => {
+          console.log("note saved");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      props.onClose();
+    } else {
+      props.onClose();
+    }
   };
 
   useEffect(() => {
@@ -51,6 +64,7 @@ function AddForm(props) {
     <div className="form-container">
       <form className="form-note" onSubmit={handleSubmit}>
         <div className="form-note__timestamp">{getDate()}</div>
+
         <input
           type="text"
           placeholder="Title..."
@@ -60,12 +74,14 @@ function AddForm(props) {
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           className={disabled ? "disabled-input" : ""}
         />
+
         <textarea
           placeholder="body..."
           value={formData.body}
           onChange={(e) => setFormData({ ...formData, body: e.target.value })}
         ></textarea>
         <hr />
+
         <div className="form-note__auctions">
           <button
             className={`form-note__auctions-save ${
@@ -85,5 +101,9 @@ function AddForm(props) {
     </div>
   );
 }
+
+AddForm.propTypes = {
+  onClose: PropTypes.func,
+};
 
 export default AddForm;
