@@ -1,11 +1,12 @@
 import Header from "./components/Header/Header";
 import Notes from "./components/Notes/Notes";
 import AddForm from "./components/AddForm/AddForm";
+import "./App.css";
 
 import { useState, useEffect } from "react";
 import browser from "webextension-polyfill";
-
-import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [hasAddForm, setHasAddForm] = useState(false);
@@ -35,6 +36,20 @@ function App() {
 
   return (
     <main>
+      <ToastContainer
+        className="custom-toast-container"
+        position="top-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <Header onAddClick={handleAddClick} />
       {hasAddForm && !fromClosed && (
         <AddForm onClose={handleFormClose} onSave={fetchNotes} />

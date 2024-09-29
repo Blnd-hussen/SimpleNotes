@@ -1,4 +1,5 @@
 import "./Note.css";
+
 import { icons } from "@assets";
 import PropTypes from "prop-types";
 
