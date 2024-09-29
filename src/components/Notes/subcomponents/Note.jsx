@@ -2,10 +2,21 @@ import "./Note.css";
 
 import { icons } from "@assets";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 function Note(props) {
   const handleCopy = () => {
     navigator.clipboard.writeText(props.body);
+    toast.success("Text copied to clipboard.", {
+      position: "top-left",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   };
 
   return (
