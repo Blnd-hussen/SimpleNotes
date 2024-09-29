@@ -7,11 +7,12 @@
   color: var(--primary-text-color);
   background-color: var(--primary-background);
 
-  --primary-background: #242424;
-  --secondary-background: #333333;
-  --tertiary-background: hsl(0, 0%, 16%);
+  --primary-background: #1c1c1a; 
+  --secondary-background: #2c2d29; 
+  --tertiary-background: rgb(36, 35, 33); 
   --primary-text-color: #ffffffde;
-  --accesnt-color: #b9a648;
+  --accent-color: rgb(151, 131, 75); 
+  --danger-color: rgb(134, 46, 40); 
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,6 +27,10 @@
   box-sizing: border-box;
 }
 
+body {
+  min-width: 480px;
+  min-height: 550px;
+}
 
 a {
   font-weight: 500;
@@ -52,7 +57,7 @@ button {
 }
 
 button:hover {
-  opacity: .8;
+  opacity: 0.8;
 }
 
 button:focus,
