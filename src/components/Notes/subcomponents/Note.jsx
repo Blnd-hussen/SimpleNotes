@@ -3,6 +3,10 @@ import { icons } from "@assets";
 import PropTypes from "prop-types";
 
 function Note(props) {
+  const handleCopy = () => {
+    navigator.clipboard.writeText(props.body);
+  };
+
   return (
     <article className="note">
       <div className="note__timestamp">{props.created}</div>
@@ -10,7 +14,7 @@ function Note(props) {
       <div className="note__body">{props.body}</div>
       <hr />
       <div className="note__actions">
-        <button title="copy">
+        <button title="copy" onClick={handleCopy}>
           <img
             className="note__auctions-icon"
             src={icons["default"].copy}
