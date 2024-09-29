@@ -1,16 +1,32 @@
-import Note from "./subcomponents/Note"
-import "./Notes.css"
+import Note from "./subcomponents/Note";
+import "./Notes.css";
 
-function Notes() {
+import PropTypes from "prop-types";
+
+function Notes(props) {
   return (
     <div className="notes">
-      <Note 
-        title="Hello"
-        created="19/09/2024 - 05:29 PM"
-        body="this is a test note"
-      />
+      {props.notes.map((note, index) => (
+        <Note
+          key={index}
+          title={note.title}
+          created={note.created}
+          body={note.body}
+        />
+      ))}
     </div>
-  )
+  );
 }
 
-export default Notes
+Notes.propTypes = {
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      created: PropTypes.string,
+      body: PropTypes.string,
+      pinStatus: PropTypes.bool,
+    })
+  ),
+};
+
+export default Notes;

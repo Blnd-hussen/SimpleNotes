@@ -32,28 +32,29 @@ function AddForm(props) {
     title: "",
     body: "",
     pinStatus: false,
-    date: getDate(),
+    created: getDate(),
   });
   const [disabled, setDisabled] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
     const action = event.nativeEvent.submitter.name;
 
     if (action === "save") {
-      browser.storage.local
-        .set({ note: formData })
-        .then(() => {
-          console.log("note saved");
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      props.onClose();
-    } else {
-      props.onClose();
+      try {
+        const response = await browser.storage.local.get("notes");
+        const existingNotes = response.notes ? response.notes : [];
+        const updatedNotes = [formData, ...existingNotes];
+
+        await browser.storage.local.set({ notes: updatedNotes });
+
+        props.onClose();
+        props.onSave();
+      } catch (err) {
+        console.error(err);
+      }
     }
+    props.onClose();
   };
 
   useEffect(() => {
@@ -64,7 +65,6 @@ function AddForm(props) {
     <div className="form-container">
       <form className="form-note" onSubmit={handleSubmit}>
         <div className="form-note__timestamp">{getDate()}</div>
-
         <input
           type="text"
           placeholder="Title..."
@@ -74,14 +74,12 @@ function AddForm(props) {
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           className={disabled ? "disabled-input" : ""}
         />
-
         <textarea
           placeholder="body..."
           value={formData.body}
           onChange={(e) => setFormData({ ...formData, body: e.target.value })}
         ></textarea>
         <hr />
-
         <div className="form-note__auctions">
           <button
             className={`form-note__auctions-save ${
@@ -104,6 +102,7 @@ function AddForm(props) {
 
 AddForm.propTypes = {
   onClose: PropTypes.func,
+  onSave: PropTypes.func,
 };
 
 export default AddForm;
