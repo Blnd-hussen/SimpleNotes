@@ -54,7 +54,7 @@ function App() {
       {hasAddForm && !fromClosed && (
         <AddForm onClose={handleFormClose} onSave={fetchNotes} />
       )}
-      <Notes notes={notes} />
+      <Notes notes={notes} onChange={fetchNotes} />
     </main>
   );
 }

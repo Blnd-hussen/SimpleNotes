@@ -50,7 +50,7 @@ function Note(props) {
           />
         </button>
 
-        <button title="delete">
+        <button title="delete" onClick={() => props.onDelete(props.id)}>
           <img
             className="note__auctions-icon"
             src={icons["default"].remove}
@@ -63,9 +63,11 @@ function Note(props) {
 }
 
 Note.propTypes = {
-  title: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   body: PropTypes.string,
   created: PropTypes.string,
+  onDelete: PropTypes.func,
 };
 
 export default Note;

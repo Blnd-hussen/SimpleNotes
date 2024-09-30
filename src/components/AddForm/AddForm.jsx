@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import browser from "webextension-polyfill";
+import { v4 as uuidv4 } from "uuid";
 
 import "./AddForm.css";
 
@@ -29,6 +30,7 @@ function AddForm(props) {
   };
 
   const [formData, setFormData] = useState({
+    id: uuidv4(),
     title: "",
     body: "",
     pinStatus: false,
