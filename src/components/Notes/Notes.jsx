@@ -51,6 +51,7 @@ function Notes(props) {
         id={note.id}
         title={note.title}
         created={note.created}
+        pinStatus={note.pinStatus}
         body={note.body}
         onDelete={handleDelete}
         onPin={handlePin}

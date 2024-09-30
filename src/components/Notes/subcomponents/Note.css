@@ -57,3 +57,13 @@
 .note .note__auctions-icon {
   width: 20px;
 }
+
+.pined-note {
+  .note__timestamp {
+    color: var(--accent-pin) !important;
+  }
+
+  .note__title {
+    border-bottom: 2px solid var(--accent-pin) !important;
+  }
+}

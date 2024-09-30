@@ -20,7 +20,7 @@ function Note(props) {
   };
 
   return (
-    <article className="note">
+    <article className={`note ${props.pinStatus ? "pined-note" : ""}`}>
       <div className="note__timestamp">{props.created}</div>
       <h2 className="note__title">{props.title}</h2>
       <div className="note__body">{props.body}</div>
@@ -29,7 +29,11 @@ function Note(props) {
         <button title="copy" onClick={handleCopy}>
           <img
             className="note__auctions-icon"
-            src={icons["default"].copy}
+            src={
+              props.pinStatus
+                ? icons["default"].pinned.copy
+                : icons["default"].copy
+            }
             alt="copy"
           />
         </button>
@@ -37,23 +41,38 @@ function Note(props) {
         <button title="edit">
           <img
             className="note__auctions-icon"
-            src={icons["default"].edit}
+            src={
+              props.pinStatus
+                ? icons["default"].pinned.edit
+                : icons["default"].edit
+            }
             alt="edit"
           />
         </button>
 
-        <button title="pin" onClick={() => props.onPin(props.id)}>
+        <button
+          title={props.pinStatus ? "unpin" : "pin"}
+          onClick={() => props.onPin(props.id)}
+        >
           <img
             className="note__auctions-icon"
-            src={icons["default"].pin}
-            alt="pin"
+            src={
+              props.pinStatus
+                ? icons["default"].pinned.unpin
+                : icons["default"].pin
+            }
+            alt={props.pinStatus ? "unpin" : "pin"}
           />
         </button>
 
         <button title="delete" onClick={() => props.onDelete(props.id)}>
           <img
             className="note__auctions-icon"
-            src={icons["default"].remove}
+            src={
+              props.pinStatus
+                ? icons["default"].pinned.remove
+                : icons["default"].remove
+            }
             alt="remove"
           />
         </button>
@@ -67,6 +86,7 @@ Note.propTypes = {
   title: PropTypes.string.isRequired,
   body: PropTypes.string,
   created: PropTypes.string,
+  pinStatus: PropTypes.bool,
   onDelete: PropTypes.func,
   onPin: PropTypes.func,
 };
