@@ -23,9 +23,19 @@ function App() {
     setFormClosed(true);
   };
 
-  const fetchNotes = () => {
+  const handleSearch = (value) => {
+    fetchNotes(value);
+  };
+
+  const fetchNotes = (searchTerm = "") => {
     browser.storage.local.get("notes").then((response) => {
-      const storedNotes = response.notes ? response.notes : [];
+      let storedNotes = response.notes ? response.notes : [];
+
+      if (searchTerm && storedNotes.length) {
+        storedNotes = storedNotes.filter((note) =>
+          note.title.includes(searchTerm)
+        );
+      }
       setNotes(storedNotes);
     });
   };
@@ -50,7 +60,7 @@ function App() {
         theme="dark"
       />
 
-      <Header onAddClick={handleAddClick} />
+      <Header onAddClick={handleAddClick} onSearch={handleSearch} />
       {hasAddForm && !fromClosed && (
         <AddForm onClose={handleFormClose} onSave={fetchNotes} />
       )}

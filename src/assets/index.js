@@ -11,7 +11,11 @@ import removeDefaultPinned from "./default/pinned/remove.png";
 import editDefaultPinned from "./default/pinned/edit.png";
 import copyDefaultPinned from "./default/pinned/copy.png";
 
+//* search icon
+import searchIcon from "./search.png";
+
 export const icons = {
+  search: searchIcon,
   default: {
     pinned: {
       remove: removeDefaultPinned,
