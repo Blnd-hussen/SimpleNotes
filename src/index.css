@@ -30,6 +30,8 @@
 body {
   min-width: 480px;
   min-height: 550px;
+  max-width: 480px;
+  max-height: 550px;
 }
 
 a {
