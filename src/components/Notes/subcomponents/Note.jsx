@@ -42,7 +42,7 @@ function Note(props) {
           />
         </button>
 
-        <button title="pin">
+        <button title="pin" onClick={() => props.onPin(props.id)}>
           <img
             className="note__auctions-icon"
             src={icons["default"].pin}
@@ -68,6 +68,7 @@ Note.propTypes = {
   body: PropTypes.string,
   created: PropTypes.string,
   onDelete: PropTypes.func,
+  onPin: PropTypes.func,
 };
 
 export default Note;
