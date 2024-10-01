@@ -60,7 +60,8 @@ function App() {
         theme="dark"
       />
 
-      <Header onAddClick={handleAddClick} />
+      <Header onAddClick={handleAddClick} onSearch={handleSearch} />
+        
       {hasNoteForm && !fromClosed && (
         <NoteForm onClose={handleFormClose} onSave={fetchNotes} />
       )}
