@@ -1,10 +1,15 @@
 import Note from "./subcomponents/Note";
+import NoteForm from "../NoteForm/NoteForm";
 import "./Notes.css";
 
 import PropTypes from "prop-types";
 import browser from "webextension-polyfill";
+import { useState } from "react";
 
 function Notes(props) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editNote, setEditNote] = useState(null);
+
   const handleDelete = async (noteId) => {
     try {
       const response = await browser.storage.local.get("notes");
@@ -41,6 +46,47 @@ function Notes(props) {
     }
   };
 
+  const openEditForm = async (noteId) => {
+    try {
+      const response = await browser.storage.local.get("notes");
+      if (!response.notes) {
+        throw new Error("No notes found!");
+      }
+
+      const note = response.notes.find((note) => note.id === noteId);
+      setEditNote(note);
+      setIsEditing(true);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleEdit = async (formData) => {
+    try {
+      const response = await browser.storage.local.get("notes");
+      if (!response.notes) {
+        throw new Error("no notes were found!");
+      }
+
+      const savedNotes = response.notes;
+      const editNoteId = formData.id;
+      const targetNote = savedNotes.find((note) => note.id === editNoteId);
+
+      if (
+        targetNote.title !== formData.title ||
+        targetNote.body !== formData.body
+      ) {
+        targetNote.title = formData.title;
+        targetNote.body = formData.body;
+        await browser.storage.local.set({ notes: savedNotes });
+        props.onChange();
+      }
+      setIsEditing(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const pinList = [];
   const noteList = [];
 
@@ -55,6 +101,7 @@ function Notes(props) {
         body={note.body}
         onDelete={handleDelete}
         onPin={handlePin}
+        onEdit={openEditForm}
       />
     );
 
@@ -64,6 +111,15 @@ function Notes(props) {
 
   return (
     <>
+      {isEditing && (
+        <NoteForm
+          id={editNote.id}
+          title={editNote.title}
+          body={editNote.body}
+          formType="edit"
+          onSaveChanges={handleEdit}
+        />
+      )}
       {pinList.length > 0 && <div className="pined-notes">{pinList}</div>}
       <div className="notes">{noteList}</div>
     </>

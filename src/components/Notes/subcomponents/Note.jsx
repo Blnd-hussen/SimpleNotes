@@ -37,8 +37,7 @@ function Note(props) {
             alt="copy"
           />
         </button>
-
-        <button title="edit">
+        <button title="edit" onClick={() => props.onEdit(props.id)}>
           <img
             className="note__auctions-icon"
             src={
@@ -49,7 +48,6 @@ function Note(props) {
             alt="edit"
           />
         </button>
-
         <button
           title={props.pinStatus ? "unpin" : "pin"}
           onClick={() => props.onPin(props.id)}
@@ -64,7 +62,6 @@ function Note(props) {
             alt={props.pinStatus ? "unpin" : "pin"}
           />
         </button>
-
         <button title="delete" onClick={() => props.onDelete(props.id)}>
           <img
             className="note__auctions-icon"
@@ -89,6 +86,7 @@ Note.propTypes = {
   pinStatus: PropTypes.bool,
   onDelete: PropTypes.func,
   onPin: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 export default Note;

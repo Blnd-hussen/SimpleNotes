@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import browser from "webextension-polyfill";
 import { v4 as uuidv4 } from "uuid";
 
-import "./AddForm.css";
+import "./NoteForm.css";
 
 function AddForm(props) {
   const getDate = () => {
@@ -30,10 +30,10 @@ function AddForm(props) {
   };
 
   const [formData, setFormData] = useState({
-    id: uuidv4(),
-    title: "",
-    body: "",
-    pinStatus: false,
+    id: props.id ? props.id : uuidv4(),
+    title: props.title ? props.title : "",
+    body: props.body ? props.body : "",
+    pinStatus: props.pinStatus ? props.pinStatus : false,
     created: getDate(),
   });
   const [disabled, setDisabled] = useState(false);
@@ -83,19 +83,34 @@ function AddForm(props) {
         ></textarea>
         <hr />
         <div className="form-note__auctions">
-          <button
-            className={`form-note__auctions-save ${
-              disabled ? "disabled-button" : ""
-            }`}
-            type="submit"
-            name="save"
-            disabled={disabled}
-          >
-            Save
-          </button>
-          <button className="form-note__auctions-cancel" name="cancel">
-            cancel
-          </button>
+          {props.formType === "edit" ? (
+            <button
+              className={`form-note__auctions-save ${
+                disabled ? "disabled-button" : ""
+              }`}
+              type="button"
+              onClick={() => props.onSaveChanges(formData)}
+              disabled={disabled}
+            >
+              Save Changes
+            </button>
+          ) : (
+            <>
+              <button
+                className={`form-note__auctions-save ${
+                  disabled ? "disabled-button" : ""
+                }`}
+                type="submit"
+                name="save"
+                disabled={disabled}
+              >
+                Save
+              </button>
+              <button className="form-note__auctions-cancel" name="cancel">
+                cancel
+              </button>
+            </>
+          )}
         </div>
       </form>
     </div>
@@ -103,8 +118,14 @@ function AddForm(props) {
 }
 
 AddForm.propTypes = {
+  id: PropTypes.string,
+  title: PropTypes.string,
+  body: PropTypes.string,
+  pinStatus: PropTypes.bool,
+  formType: PropTypes.string,
   onClose: PropTypes.func,
   onSave: PropTypes.func,
+  onSaveChanges: PropTypes.func,
 };
 
 export default AddForm;
