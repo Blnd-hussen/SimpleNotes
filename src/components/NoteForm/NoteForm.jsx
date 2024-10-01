@@ -2,33 +2,11 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import browser from "webextension-polyfill";
 import { v4 as uuidv4 } from "uuid";
+import { getDate } from "../../utils/utils";
 
 import "./NoteForm.css";
 
 function AddForm(props) {
-  const getDate = () => {
-    const date = new Date()
-      .toJSON()
-      .slice(0, 10)
-      .split("-")
-      .reverse()
-      .join("-");
-
-    const [hour, AMPM] = new Date()
-      .toLocaleString("en-US", {
-        hour: "2-digit",
-        hour12: true,
-      })
-      .split(" ");
-
-    const minute = new Date().toLocaleString("en-US", {
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    return `${date} - ${hour}:${minute} ${AMPM}`;
-  };
-
   const [formData, setFormData] = useState({
     id: props.id ? props.id : uuidv4(),
     title: props.title ? props.title : "",
