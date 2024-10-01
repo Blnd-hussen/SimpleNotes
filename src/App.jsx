@@ -61,9 +61,11 @@ function App() {
       />
 
       <Header onAddClick={handleAddClick} onSearch={handleSearch} />
+
       {hasAddForm && !fromClosed && (
         <AddForm onClose={handleFormClose} onSave={fetchNotes} />
       )}
+
       <Notes notes={notes} onChange={fetchNotes} />
     </main>
   );
