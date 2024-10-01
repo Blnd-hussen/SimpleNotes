@@ -2,6 +2,8 @@ import "./Note.css";
 
 import { icons } from "@assets";
 import PropTypes from "prop-types";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { toast } from "react-toastify";
 
 function Note(props) {
@@ -20,10 +22,17 @@ function Note(props) {
   };
 
   return (
-    <article className={`note ${props.pinStatus ? "pined-note" : ""}`}>
+    <article className={`note ${props.pinStatus ? "pinned--note" : ""}`}>
       <div className="note__timestamp">{props.created}</div>
       <h2 className="note__title">{props.title}</h2>
-      <div className="note__body">{props.body}</div>
+      <div className="note__body">
+        <Markdown
+          className="note__markdown-container"
+          remarkPlugins={[remarkGfm]}
+        >
+          {props.body}
+        </Markdown>
+      </div>
       <hr />
       <div className="note__actions">
         <button title="copy" onClick={handleCopy}>
