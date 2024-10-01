@@ -40,9 +40,11 @@ function AddForm(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const action = event.nativeEvent.submitter.name;
+    const eventSubmitter = event.nativeEvent.submitter;
+    if (!eventSubmitter) return;
 
-    if (action === "save") {
+    const eventName = eventSubmitter.name;
+    if (eventName === "save") {
       try {
         const response = await browser.storage.local.get("notes");
         const existingNotes = response.notes ? response.notes : [];
@@ -50,7 +52,6 @@ function AddForm(props) {
 
         await browser.storage.local.set({ notes: updatedNotes });
 
-        props.onClose();
         props.onSave();
       } catch (err) {
         console.error(err);
