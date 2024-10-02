@@ -78,6 +78,7 @@ function Notes(props) {
       ) {
         targetNote.title = formData.title;
         targetNote.body = formData.body;
+        targetNote.created = formData.created;
         await browser.storage.local.set({ notes: savedNotes });
         props.onChange();
       }
