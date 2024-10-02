@@ -4,6 +4,9 @@
   border-radius: 0.8rem;
   max-width: 100%;
   min-width: 100%;
+  text-wrap: wrap;
+  white-space: pre-line;
+  word-break: break-all;
 
   .note__title {
     width: 60%;
@@ -42,9 +45,6 @@
   font-size: 1.2em;
 
   max-height: 300px;
-  text-wrap: wrap;
-  white-space: pre-line;
-  word-break: break-all;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
