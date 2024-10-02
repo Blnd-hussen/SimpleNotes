@@ -33,7 +33,7 @@ function App() {
 
       if (searchTerm && storedNotes.length) {
         storedNotes = storedNotes.filter((note) =>
-          note.title.includes(searchTerm)
+          note.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
       }
       setNotes(storedNotes);
@@ -61,7 +61,7 @@ function App() {
       />
 
       <Header onAddClick={handleAddClick} onSearch={handleSearch} />
-        
+
       {hasNoteForm && !fromClosed && (
         <NoteForm onClose={handleFormClose} onSave={fetchNotes} />
       )}
