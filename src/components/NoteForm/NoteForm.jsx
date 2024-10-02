@@ -39,7 +39,10 @@ function AddForm(props) {
   };
 
   useEffect(() => {
-    setDisabled(formData.title.trim() === "");
+    const title = formData.title.trim();
+    const maxLen = 41;
+
+    setDisabled(!title || title.length > maxLen);
   }, [formData]);
 
   return (
