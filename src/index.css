@@ -30,9 +30,9 @@
 }
 
 body {
-  min-width: 480px;
+  min-width: 500px;
   min-height: 550px;
-  max-width: 480px;
+  max-width: 500px;
   max-height: 550px;
 }
 
