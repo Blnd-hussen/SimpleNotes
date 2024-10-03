@@ -40,7 +40,7 @@ function Note(props) {
             className="note__auctions-icon"
             src={
               props.pinStatus
-                ? icons["default"].pinned.copy
+                ? icons["pinned"].copy
                 : icons["default"].copy
             }
             alt="copy"
@@ -51,7 +51,7 @@ function Note(props) {
             className="note__auctions-icon"
             src={
               props.pinStatus
-                ? icons["default"].pinned.edit
+                ? icons["pinned"].edit
                 : icons["default"].edit
             }
             alt="edit"
@@ -65,7 +65,7 @@ function Note(props) {
             className="note__auctions-icon"
             src={
               props.pinStatus
-                ? icons["default"].pinned.unpin
+                ? icons["pinned"].unpin
                 : icons["default"].pin
             }
             alt={props.pinStatus ? "unpin" : "pin"}
@@ -76,7 +76,7 @@ function Note(props) {
             className="note__auctions-icon"
             src={
               props.pinStatus
-                ? icons["default"].pinned.remove
+                ? icons["pinned"].remove
                 : icons["default"].remove
             }
             alt="remove"

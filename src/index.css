@@ -7,13 +7,14 @@
   color: var(--primary-text-color);
   background-color: var(--primary-background);
 
-  --primary-background: #1c1c1a; 
-  --secondary-background: #2c2d29; 
-  --tertiary-background: rgb(36, 35, 33); 
-  --primary-text-color: #ffffffde;
+  --primary-background: #1c1c1a;
+  --secondary-background: #2c2d29;
+  --tertiary-background: rgb(36, 35, 33);
+  --primary-text-color: #dddddd;
+  --secondary-text-color: #d6d6d6;
   --accent-color: rgb(151, 131, 75);
   --accent-pin: #a26f40;
-  --danger-color: rgb(134, 46, 40); 
+  --danger-color: rgb(134, 46, 40);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

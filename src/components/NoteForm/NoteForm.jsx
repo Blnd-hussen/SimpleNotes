@@ -14,6 +14,7 @@ function AddForm(props) {
     pinStatus: props.pinStatus ? props.pinStatus : false,
     created: getDate(),
   });
+
   const [disabled, setDisabled] = useState(false);
 
   const handleSubmit = async (event) => {

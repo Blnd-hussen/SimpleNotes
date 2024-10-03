@@ -1,6 +1,7 @@
 import Header from "./components/Header/Header";
 import Notes from "./components/Notes/Notes";
 import NoteForm from "./components/NoteForm/NoteForm";
+import DefaultNote from "./components/Notes/subcomponents/DefaultNote";
 import "./App.css";
 
 import { useState, useEffect } from "react";
@@ -10,12 +11,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [hasNoteForm, setHasNoteForm] = useState(false);
-  const [fromClosed, setFormClosed] = useState(false);
+  const [formClosed, setFormClosed] = useState(false);
+  const [showDefaultNote, setShowDefaultNote] = useState(true);
   const [notes, setNotes] = useState([]);
 
   const handleAddClick = () => {
     setHasNoteForm((prev) => !prev);
     setFormClosed(false);
+    setShowDefaultNote(false);
   };
 
   const handleFormClose = () => {
@@ -62,11 +65,13 @@ function App() {
 
       <Header onAddClick={handleAddClick} onSearch={handleSearch} />
 
-      {hasNoteForm && !fromClosed && (
+      {hasNoteForm && !formClosed && (
         <NoteForm onClose={handleFormClose} onSave={fetchNotes} />
       )}
 
-      <Notes notes={notes} onChange={fetchNotes} />
+      <Notes notes={notes} onChange={fetchNotes}>
+        {showDefaultNote && !notes.length && <DefaultNote />}
+      </Notes>
     </main>
   );
 }

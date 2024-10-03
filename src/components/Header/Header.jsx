@@ -7,7 +7,7 @@ function Header(props) {
     <header className="header">
       <div className="searchbox-container">
         <span className="search-icon">
-          <img src={icons["search"]} alt="" />
+          <img src={icons["search"]} alt="search icon" />
         </span>
         <input
           type="text"

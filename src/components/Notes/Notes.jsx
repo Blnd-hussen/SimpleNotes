@@ -90,7 +90,6 @@ function Notes(props) {
 
   const pinList = [];
   const noteList = [];
-
   props.notes.forEach((note) => {
     let currentNote = (
       <Note
@@ -122,7 +121,11 @@ function Notes(props) {
         />
       )}
       {pinList.length > 0 && <div className="pined-notes">{pinList}</div>}
-      <div className="notes">{noteList}</div>
+
+      <div className="notes">
+        {noteList}
+        {props.children}
+      </div>
     </>
   );
 }
@@ -138,6 +141,7 @@ Notes.propTypes = {
     })
   ),
   onChange: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default Notes;

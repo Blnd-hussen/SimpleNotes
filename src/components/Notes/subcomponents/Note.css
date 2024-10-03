@@ -4,12 +4,9 @@
   border-radius: 0.8rem;
   max-width: 100%;
   min-width: 100%;
-  text-wrap: wrap;
-  white-space: pre-line;
-  word-break: break-all;
 
   .note__title {
-    width: 60%;
+    width: 65%;
     font-size: 1.3em;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--accent-color);
@@ -49,10 +46,13 @@
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--accent-color);
+  text-wrap: wrap;
+  white-space: pre-line;
+  word-break: normal;
 }
 
 .note__body * {
-  font-size: 1em;
+  font-size: 0.9em;
   font-family: inherit;
 }
 
@@ -67,7 +67,13 @@
 .note__markdown-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  row-gap: 0.8rem;
+
+  h1,
+  h2,
+  h3 {
+    border-bottom: 1px solid #343434df;
+  }
 
   h1 {
     font-size: 1.8em;
@@ -81,11 +87,25 @@
     font-size: 1.2em;
   }
 
+  p {
+    color: var(--secondary-text-color);
+  }
+
+  ul,
+  ol {
+    line-height: 0.9;
+
+    li {
+      list-style-position: inside;
+    }
+  }
+
   blockquote {
     display: flex;
-    padding-inline: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0 0.3rem 0.3rem 0;
     border-left: 3px solid var(--accent-color);
-    background-color: transparent;
+    background-color: var(--secondary-background);
   }
 
   blockquote::before,
@@ -100,10 +120,10 @@
   code:not(pre code) {
     color: var(--accent-color);
   }
+}
 
-  li {
-    list-style-position: inside;
-  }
+.note__markdown-container * {
+  max-height: min-content;
 }
 
 .pinned--note {
