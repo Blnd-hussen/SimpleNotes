@@ -10,7 +10,11 @@
     "64": "icons/note-64.png",
     "128": "icons/note-128.png"
   },
-
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "SimpleNotes-id@SimpleNotes.com"
+    }
+  },
   "action": {
     "default_popup": "index.html"
   },

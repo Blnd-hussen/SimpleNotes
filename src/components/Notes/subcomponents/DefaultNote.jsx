@@ -14,7 +14,7 @@ function DefaultNote() {
 
   > **NOTE:** This extension uses your browser's local storage (\`storage.local - Mozilla\`) to store your notes. Please do not store passwords or sensitive data in this extension or any other browser extension. to learn more about local storage click [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local)
 
-  to view the extensions source code click [here]()
+  to view the extensions source code click [here](https://github.com/Blnd-hussen/SimpleNotes/)
   `;
   return (
     <article className="note">
