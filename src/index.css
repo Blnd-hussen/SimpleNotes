@@ -3,23 +3,38 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
+  --primary-background: #ffffff;
+  --secondary-background: #f2f2f2;
+  --tertiary-background: #e6e6e6;
+  --primary-text-color: #1a1a1a;
+  --secondary-text-color: #333333;
+  --accent-color: #957b43;
+  --accent-pin: #a26f40;
+  --danger-color: #b33a3a;
+
+  color-scheme: light;
   color: var(--primary-text-color);
   background-color: var(--primary-background);
-
-  --primary-background: #1c1c1a;
-  --secondary-background: #2c2d29;
-  --tertiary-background: rgb(36, 35, 33);
-  --primary-text-color: #dddddd;
-  --secondary-text-color: #d6d6d6;
-  --accent-color: rgb(151, 131, 75);
-  --accent-pin: #a26f40;
-  --danger-color: rgb(134, 46, 40);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-background: #1c1c1a;
+    --secondary-background: #2c2d29;
+    --tertiary-background: #242321;
+    --primary-text-color: #dddddd;
+    --secondary-text-color: #d6d6d6;
+    --accent-color: #97834b;
+    --accent-pin: #a26f40;
+    --danger-color: #862e28;
+
+    color-scheme: dark;
+  }
 }
 
 * {

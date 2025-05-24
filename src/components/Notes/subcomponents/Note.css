@@ -46,14 +46,15 @@
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--accent-color);
-  text-wrap: wrap;
-  white-space: pre-line;
-  word-break: normal;
 }
 
 .note__body * {
   font-size: 0.9em;
   font-family: inherit;
+  text-justify: inter-word;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .note__body::-webkit-scrollbar-thumb {
@@ -93,7 +94,7 @@
 
   ul,
   ol {
-    line-height: 0.9;
+    line-height: 1.5;
 
     li {
       list-style-position: inside;
