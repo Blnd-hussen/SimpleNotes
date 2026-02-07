@@ -3,6 +3,7 @@ import NoteForm from "../NoteForm/NoteForm";
 import "./Notes.css";
 
 import PropTypes from "prop-types";
+import CryptoJS from "crypto-js";
 import browser from "webextension-polyfill";
 import { useState } from "react";
 
@@ -37,6 +38,68 @@ function Notes(props) {
       const targetNote = notes.find((note) => note.id === noteId);
       if (targetNote) {
         targetNote.pinStatus = !targetNote.pinStatus;
+      }
+
+      await browser.storage.local.set({ notes: notes });
+      props.onChange();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleLock = async (noteId) => {
+    try {
+      const response = await browser.storage.local.get("notes");
+      if (!response.notes) throw new Error("No notes were found");
+
+      const notes = response.notes;
+      const targetNote = notes.find((note) => note.id === noteId);
+
+      if (targetNote) {
+        if (targetNote.lockStatus) {
+          const password = prompt("Enter password to unlock this note:");
+
+          if (password === null) return;
+
+          try {
+            const titleBytes = CryptoJS.AES.decrypt(targetNote.title, password);
+            const originalTitle = titleBytes.toString(CryptoJS.enc.Utf8);
+            
+            const bodyBytes = CryptoJS.AES.decrypt(targetNote.body, password);
+            const originalBody = bodyBytes.toString(CryptoJS.enc.Utf8);
+
+            if (!originalBody || !originalTitle) {
+              alert("Incorrect password!");
+              return;
+            }
+
+            targetNote.title = originalTitle;
+            targetNote.body = originalBody;
+            targetNote.lockStatus = false;
+          } catch (e) {
+            console.error("Decryption failed", e);
+            alert("Error decrypting note.");
+            return;
+          }
+        } else {
+          const password = prompt("Set a password to lock this note:");
+
+          if (!password) return;
+
+          const cipherBody = CryptoJS.AES.encrypt(
+            targetNote.body,
+            password,
+          ).toString();
+
+          const cipherTitle = CryptoJS.AES.encrypt(
+            targetNote.title,
+            password,
+          ).toString();
+
+          targetNote.title = cipherTitle;
+          targetNote.body = cipherBody;
+          targetNote.lockStatus = true;
+        }
       }
 
       await browser.storage.local.set({ notes: notes });
@@ -98,10 +161,12 @@ function Notes(props) {
         title={note.title}
         created={note.created}
         pinStatus={note.pinStatus}
+        lockStatus={note.lockStatus}
         body={note.body}
         onDelete={handleDelete}
         onPin={handlePin}
         onEdit={openEditForm}
+        onLock={handleLock}
       />
     );
 
@@ -138,7 +203,8 @@ Notes.propTypes = {
       created: PropTypes.string,
       body: PropTypes.string,
       pinStatus: PropTypes.bool,
-    })
+      lockStatus: PropTypes.bool || false,
+    }),
   ),
   onChange: PropTypes.func,
   children: PropTypes.node,

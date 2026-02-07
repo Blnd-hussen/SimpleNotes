@@ -12,11 +12,15 @@
     border-bottom: 2px solid var(--accent-color);
   }
 
-  .note__actions {
-    margin-top: 1rem;
+  .note__actions-container {
     display: flex;
-    justify-content: end;
-    column-gap: 1rem;
+    justify-content: space-between;
+    margin-top: 1rem;
+
+    .note_actions {
+      display: inherit;
+      gap: 1.5rem;
+    }
 
     button {
       width: min-content;
@@ -138,5 +142,40 @@
 
   .note__markdown-container blockquote {
     border-left: 3px solid var(--accent-pin);
+  }
+}
+
+.note__lock-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.8rem;
+  z-index: 10; 
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+ backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  background: rgba(0, 0, 0, 0.4); 
+  
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+
+  button {
+    background-color: transparent;
+    border: 1px solid #dddddd41;
+    color: #dddddd;
+    backdrop-filter: blur(12px);
+    font-size: 1.5em;
+    cursor: pointer;
+    font-size: 1em;
   }
 }

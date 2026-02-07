@@ -1,3 +1,6 @@
+/* @import "tailwindcss"; */
+
+
 .custom-toast-container .Toastify__toast {
   max-width: 60% !important;
 }

@@ -1,10 +1,12 @@
 import "./Note.css";
 
-import { icons } from "@assets";
 import PropTypes from "prop-types";
-import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Markdown from "react-markdown";
 import { toast } from "react-toastify";
+
+import { icons } from "@assets";
+import { BiSolidLockAlt, BiSolidLockOpenAlt } from "react-icons/bi";
 
 function Note(props) {
   const handleCopy = () => {
@@ -21,8 +23,29 @@ function Note(props) {
     });
   };
 
+  const ICON_COLOR = props.pinStatus ? "#a26f40" : "#b9a648";
+
   return (
-    <article className={`note ${props.pinStatus ? "pinned--note" : ""}`}>
+    <article
+      className={`note ${props.pinStatus ? "pinned--note" : ""}`}
+      style={{ position: "relative" }}
+    >
+      {props.lockStatus && (
+        <div className="note__lock-indicator">
+          <button
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+            }}
+            onClick={() => props.onLock(props.id)}
+          >
+            <BiSolidLockAlt style={{ minHeight: "18px", minWidth: "18px" }} />
+            Unlock
+          </button>
+        </div>
+      )}
       <div className="note__timestamp">{props.created}</div>
       <h2 className="note__title">{props.title}</h2>
       <div className="note__body">
@@ -34,55 +57,78 @@ function Note(props) {
         </Markdown>
       </div>
       <hr />
-      <div className="note__actions">
-        <button title="copy" onClick={handleCopy}>
-          <img
-            className="note__auctions-icon"
-            src={
-              props.pinStatus
-                ? icons["pinned"].copy
-                : icons["default"].copy
-            }
-            alt="copy"
-          />
-        </button>
-        <button title="edit" onClick={() => props.onEdit(props.id)}>
-          <img
-            className="note__auctions-icon"
-            src={
-              props.pinStatus
-                ? icons["pinned"].edit
-                : icons["default"].edit
-            }
-            alt="edit"
-          />
-        </button>
+      <section className="note__actions-container">
         <button
-          title={props.pinStatus ? "unpin" : "pin"}
-          onClick={() => props.onPin(props.id)}
+          title={props.lockStatus ? "unlock" : "lock"}
+          onClick={() => props.onLock(props.id)}
         >
-          <img
-            className="note__auctions-icon"
-            src={
-              props.pinStatus
-                ? icons["pinned"].unpin
-                : icons["default"].pin
-            }
-            alt={props.pinStatus ? "unpin" : "pin"}
-          />
+          {props.lockStatus ? (
+            <BiSolidLockAlt
+              style={{ color: ICON_COLOR, minHeight: "19px", minWidth: "19px" }}
+            />
+          ) : (
+            <BiSolidLockOpenAlt
+              style={{ color: ICON_COLOR, minHeight: "19px", minWidth: "19px" }}
+            />
+          )}
         </button>
-        <button title="delete" onClick={() => props.onDelete(props.id)}>
-          <img
-            className="note__auctions-icon"
-            src={
-              props.pinStatus
-                ? icons["pinned"].remove
-                : icons["default"].remove
-            }
-            alt="remove"
-          />
-        </button>
-      </div>
+
+        <div className="note_actions">
+          <button disabled={props.lockStatus} title="copy" onClick={handleCopy}>
+            <img
+              className="note__auctions-icon"
+              src={
+                props.pinStatus ? icons["pinned"].copy : icons["default"].copy
+              }
+              alt="copy"
+            />
+          </button>
+
+          <button
+            disabled={props.lockStatus}
+            title="edit"
+            onClick={() => props.onEdit(props.id)}
+          >
+            <img
+              className="note__auctions-icon"
+              src={
+                props.pinStatus ? icons["pinned"].edit : icons["default"].edit
+              }
+              alt="edit"
+            />
+          </button>
+
+          <button
+            disabled={props.lockStatus}
+            title={props.pinStatus ? "unpin" : "pin"}
+            onClick={() => props.onPin(props.id)}
+          >
+            <img
+              className="note__auctions-icon"
+              src={
+                props.pinStatus ? icons["pinned"].unpin : icons["default"].pin
+              }
+              alt={props.pinStatus ? "unpin" : "pin"}
+            />
+          </button>
+
+          <button
+            disabled={props.lockStatus}
+            title="delete"
+            onClick={() => props.onDelete(props.id)}
+          >
+            <img
+              className="note__auctions-icon"
+              src={
+                props.pinStatus
+                  ? icons["pinned"].remove
+                  : icons["default"].remove
+              }
+              alt="remove"
+            />
+          </button>
+        </div>
+      </section>
     </article>
   );
 }
@@ -93,9 +139,11 @@ Note.propTypes = {
   body: PropTypes.string,
   created: PropTypes.string,
   pinStatus: PropTypes.bool,
+  lockStatus: PropTypes.bool || false,
   onDelete: PropTypes.func,
   onPin: PropTypes.func,
   onEdit: PropTypes.func,
+  onLock: PropTypes.func,
 };
 
 export default Note;
