@@ -30,8 +30,8 @@
   width: 100%;
 
   #search-box {
-    background-color: #333;
-    padding: 0.5rem 1rem 0.5rem 1.7rem;
+    background-color: var(--secondary-background);
+    padding: 0.5rem 1rem 0.5rem 2rem;
     font-size: 1em;
     width: 50%;
     height: 2.1rem;
@@ -50,7 +50,7 @@
     position: absolute;
     top: 60%; /* Center vertically */
     transform: translateY(-50%);
-    left: 0.3rem;
+    left: 0.5rem;
 
     img {
       max-width: 17px;

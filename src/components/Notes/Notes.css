@@ -10,3 +10,67 @@
 
   scrollbar-width: thin;
 }
+
+.password-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+
+  background: rgba(31, 31, 31, 0.447);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+
+  border-radius: 0.8rem;
+  padding: 1.5rem;
+  color: f2f2f2;
+  z-index: 100;
+}
+
+.password-dialog .dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.password-dialog input {
+  background: var(--tertiary-background);
+  border: 1px solid #444;
+  padding: 0.5rem;
+  color: f2f2f2;
+  border-radius: 4px;
+  outline: none;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.confirm-btn,
+.cancel-btn {
+  padding: 0.4rem 1rem !important;
+  color: var(--primary-text-color);
+}
+
+.confirm-btn {
+  background-color: var(--accent-color) !important;
+}
+
+.cancel-btn {
+  background-color: var(--danger-color) !important;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}

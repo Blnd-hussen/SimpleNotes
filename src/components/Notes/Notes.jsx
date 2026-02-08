@@ -10,6 +10,9 @@ import { useState } from "react";
 function Notes(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [editNote, setEditNote] = useState(null);
+  const [isLocking, setIsLocking] = useState(false);
+  const [lockNoteId, setLockNoteId] = useState(null);
+  const [passwordInput, setPasswordInput] = useState("");
 
   const handleDelete = async (noteId) => {
     try {
@@ -47,63 +50,55 @@ function Notes(props) {
     }
   };
 
-  const handleLock = async (noteId) => {
+  const openLockDialog = (noteId) => {
+    setLockNoteId(noteId);
+    setIsLocking(true);
+    setPasswordInput("");
+  };
+
+  const processLockToggle = async () => {
     try {
       const response = await browser.storage.local.get("notes");
-      if (!response.notes) throw new Error("No notes were found");
-
       const notes = response.notes;
-      const targetNote = notes.find((note) => note.id === noteId);
+      const targetNote = notes.find((n) => n.id === lockNoteId);
 
-      if (targetNote) {
-        if (targetNote.lockStatus) {
-          const password = prompt("Enter password to unlock this note:");
-
-          if (password === null) return;
-
-          try {
-            const titleBytes = CryptoJS.AES.decrypt(targetNote.title, password);
-            const originalTitle = titleBytes.toString(CryptoJS.enc.Utf8);
-            
-            const bodyBytes = CryptoJS.AES.decrypt(targetNote.body, password);
-            const originalBody = bodyBytes.toString(CryptoJS.enc.Utf8);
-
-            if (!originalBody || !originalTitle) {
-              alert("Incorrect password!");
-              return;
-            }
-
-            targetNote.title = originalTitle;
-            targetNote.body = originalBody;
-            targetNote.lockStatus = false;
-          } catch (e) {
-            console.error("Decryption failed", e);
-            alert("Error decrypting note.");
-            return;
-          }
-        } else {
-          const password = prompt("Set a password to lock this note:");
-
-          if (!password) return;
-
-          const cipherBody = CryptoJS.AES.encrypt(
-            targetNote.body,
-            password,
-          ).toString();
-
-          const cipherTitle = CryptoJS.AES.encrypt(
+      if (targetNote.lockStatus) {
+        try {
+          const titleBytes = CryptoJS.AES.decrypt(
             targetNote.title,
-            password,
-          ).toString();
+            passwordInput,
+          );
+          const originalTitle = titleBytes.toString(CryptoJS.enc.Utf8);
+          const bodyBytes = CryptoJS.AES.decrypt(
+            targetNote.body,
+            passwordInput,
+          );
+          const originalBody = bodyBytes.toString(CryptoJS.enc.Utf8);
 
-          targetNote.title = cipherTitle;
-          targetNote.body = cipherBody;
-          targetNote.lockStatus = true;
+          if (!originalTitle) return;
+
+          targetNote.title = originalTitle;
+          targetNote.body = originalBody;
+          targetNote.lockStatus = false;
+        } catch {
+          return;
         }
+      } else {
+        if (!passwordInput) return;
+        targetNote.title = CryptoJS.AES.encrypt(
+          targetNote.title,
+          passwordInput,
+        ).toString();
+        targetNote.body = CryptoJS.AES.encrypt(
+          targetNote.body,
+          passwordInput,
+        ).toString();
+        targetNote.lockStatus = true;
       }
 
-      await browser.storage.local.set({ notes: notes });
+      await browser.storage.local.set({ notes });
       props.onChange();
+      setIsLocking(false);
     } catch (err) {
       console.error(err);
     }
@@ -166,7 +161,7 @@ function Notes(props) {
         onDelete={handleDelete}
         onPin={handlePin}
         onEdit={openEditForm}
-        onLock={handleLock}
+        onLock={openLockDialog}
       />
     );
 
@@ -191,6 +186,55 @@ function Notes(props) {
         {noteList}
         {props.children}
       </div>
+
+      {isLocking && (
+        <>
+          <dialog open className="password-dialog">
+            <form
+              className="dialog-content"
+              onSubmit={(e) => {
+                e.preventDefault();
+                processLockToggle();
+              }}
+            >
+              <h4>
+                {props.notes.find((n) => n.id === lockNoteId)?.lockStatus
+                  ? "Unlock Note"
+                  : "Set Password"}
+              </h4>
+              <input
+                type="password"
+                placeholder="Enter password..."
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                autoFocus
+              />
+              <div className="dialog-actions">
+                <button
+                  className="cancel-btn"
+                  type="button"
+                  onClick={() => setIsLocking(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="confirm-btn"
+                  onClick={processLockToggle}
+                  disabled={!passwordInput.trim()}
+                  style={{
+                    opacity: passwordInput.trim() ? 1 : 0.8,
+                    cursor: passwordInput.trim() ? "pointer" : "not-allowed",
+                  }}
+                >
+                  Confirm
+                </button>
+              </div>
+            </form>
+          </dialog>
+          <div className="backdrop"></div>
+        </>
+      )}
     </>
   );
 }

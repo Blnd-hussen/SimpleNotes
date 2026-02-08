@@ -47,7 +47,11 @@ function Note(props) {
         </div>
       )}
       <div className="note__timestamp">{props.created}</div>
-      <h2 className="note__title">{props.title}</h2>
+      <h2 className="note__title">
+        {props.title.length > 41
+          ? props.title.substring(0, 41) + "..."
+          : props.title}
+      </h2>
       <div className="note__body">
         <Markdown
           className="note__markdown-container"
