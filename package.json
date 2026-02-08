@@ -19,7 +19,6 @@
     "react-markdown": "^9.0.1",
     "react-toastify": "^10.0.5",
     "remark-gfm": "^4.0.0",
-    "tailwindcss": "^4.1.18",
     "uuid": "^10.0.0",
     "webextension-polyfill": "^0.12.0"
   },
