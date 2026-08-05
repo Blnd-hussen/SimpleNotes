@@ -13,6 +13,7 @@ function Notes(props) {
   const [isLocking, setIsLocking] = useState(false);
   const [lockNoteId, setLockNoteId] = useState(null);
   const [passwordInput, setPasswordInput] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
 
   const handleDelete = async (noteId) => {
     try {
@@ -54,6 +55,7 @@ function Notes(props) {
     setLockNoteId(noteId);
     setIsLocking(true);
     setPasswordInput("");
+    setPasswordError(false);
   };
 
   const processLockToggle = async () => {
@@ -75,12 +77,16 @@ function Notes(props) {
           );
           const originalBody = bodyBytes.toString(CryptoJS.enc.Utf8);
 
-          if (!originalTitle) return;
+          if (!originalTitle) {
+            setPasswordError(true);
+            return;
+          }
 
           targetNote.title = originalTitle;
           targetNote.body = originalBody;
           targetNote.lockStatus = false;
         } catch {
+          setPasswordError(true);
           return;
         }
       } else {
@@ -198,17 +204,34 @@ function Notes(props) {
               }}
             >
               <h4>
-                {props.notes.find((n) => n.id === lockNoteId)?.lockStatus
-                  ? "Unlock Note"
-                  : "Set Password"}
+                {passwordError ? (
+                  <span style={{ color: "var(--danger-color)" }}>
+                    Incorrect Password
+                  </span>
+                ) : props.notes.find((n) => n.id === lockNoteId)?.lockStatus ? (
+                  "Unlock Note"
+                ) : (
+                  "Set Password"
+                )}
               </h4>
               <input
                 type="password"
                 placeholder="Enter password..."
                 value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  if (passwordError) setPasswordError(false);
+                }}
+                style={
+                  passwordError
+                    ? {
+                        outline: "2px solid var(--danger-color)",
+                      }
+                    : {}
+                }
                 autoFocus
               />
+
               <div className="dialog-actions">
                 <button
                   className="cancel-btn"

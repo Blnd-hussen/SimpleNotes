@@ -1,6 +1,11 @@
-/* @import "tailwindcss"; */
-
-
 .custom-toast-container .Toastify__toast {
-  max-width: 60% !important;
+  background-color: var(--secondary-background);
+}
+
+.custom-toast-container .Toastify__progress-bar {
+  background-color: var(--accent-color);
+}
+
+.custom-toast-container .Toastify__toast--success .Toastify__toast-icon svg {
+  fill: var(--accent-color);
 }

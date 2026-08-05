@@ -7,7 +7,6 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import browser from "webextension-polyfill";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [hasNoteForm, setHasNoteForm] = useState(false);
@@ -36,7 +35,7 @@ function App() {
 
       if (searchTerm && storedNotes.length) {
         storedNotes = storedNotes.filter((note) =>
-          note.title.toLowerCase().includes(searchTerm.toLowerCase())
+          note.title.toLowerCase().includes(searchTerm.toLowerCase()),
         );
       }
       setNotes(storedNotes);
@@ -51,8 +50,8 @@ function App() {
     <main>
       <ToastContainer
         className="custom-toast-container"
-        position="top-left"
-        autoClose={2000}
+        position="bottom-left"
+        autoClose={2500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
