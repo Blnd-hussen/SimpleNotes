@@ -8,20 +8,21 @@
     font-size: 2em;
   }
 
-  .header__actions {
-    display: inherit;
-    column-gap: 0.6rem;
+  button {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
 
-    button {
-      background-color: transparent;
-      padding: 0;
-      margin: 0;
+    &:active {
+      img {
+        transform: scale(0.99);
+      }
     }
+  }
 
-    img {
-      width: 35px;
-      vertical-align: bottom;
-    }
+  img {
+    width: 35px;
+    vertical-align: bottom;
   }
 }
 

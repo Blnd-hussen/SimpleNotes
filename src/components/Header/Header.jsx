@@ -18,11 +18,10 @@ function Header(props) {
           onInput={(e) => props.onSearch(e.target.value.trim())}
         />
       </div>
-      <div className="header__actions">
-        <button onClick={() => props.onAddClick()}>
-          <img src={icons["default"].add} alt="add" />
-        </button>
-      </div>
+      
+      <button onClick={() => props.onAddClick()}>
+        <img src={icons["default"].add} alt="add" />
+      </button>
     </header>
   );
 }
