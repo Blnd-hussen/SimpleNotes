@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm";
 import Markdown from "react-markdown";
 import { toast } from "react-toastify";
 
-import { icons } from "@assets";
+import { icons } from "@/assets";
 import { BiSolidLockAlt, BiSolidLockOpenAlt } from "react-icons/bi";
 
 function Note(props) {

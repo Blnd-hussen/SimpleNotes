@@ -1,11 +1,12 @@
+import { useState } from "react";
+import PropTypes from "prop-types";
+import browser from "webextension-polyfill";
+
+import { encryptText, smartDecryptText } from "@/utils/crypto";
+
 import Note from "./subcomponents/Note";
 import NoteForm from "../NoteForm/NoteForm";
 import "./Notes.css";
-
-import PropTypes from "prop-types";
-import CryptoJS from "crypto-js";
-import browser from "webextension-polyfill";
-import { useState } from "react";
 
 function Notes(props) {
   const [isEditing, setIsEditing] = useState(false);
@@ -66,21 +67,14 @@ function Notes(props) {
 
       if (targetNote.lockStatus) {
         try {
-          const titleBytes = CryptoJS.AES.decrypt(
+          const originalTitle = await smartDecryptText(
             targetNote.title,
             passwordInput,
           );
-          const originalTitle = titleBytes.toString(CryptoJS.enc.Utf8);
-          const bodyBytes = CryptoJS.AES.decrypt(
+          const originalBody = await smartDecryptText(
             targetNote.body,
             passwordInput,
           );
-          const originalBody = bodyBytes.toString(CryptoJS.enc.Utf8);
-
-          if (!originalTitle) {
-            setPasswordError(true);
-            return;
-          }
 
           targetNote.title = originalTitle;
           targetNote.body = originalBody;
@@ -91,14 +85,8 @@ function Notes(props) {
         }
       } else {
         if (!passwordInput) return;
-        targetNote.title = CryptoJS.AES.encrypt(
-          targetNote.title,
-          passwordInput,
-        ).toString();
-        targetNote.body = CryptoJS.AES.encrypt(
-          targetNote.body,
-          passwordInput,
-        ).toString();
+        targetNote.title = await encryptText(targetNote.title, passwordInput);
+        targetNote.body = await encryptText(targetNote.body, passwordInput);
         targetNote.lockStatus = true;
       }
 

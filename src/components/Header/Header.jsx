@@ -1,5 +1,5 @@
 import "./Header.css";
-import { icons } from "@assets";
+import { icons } from "@/assets";
 import PropTypes from "prop-types";
 
 function Header(props) {
