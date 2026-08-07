@@ -49,7 +49,7 @@
 
   .search-icon {
     position: absolute;
-    top: 60%; /* Center vertically */
+    top: 43%; /* Center vertically */
     transform: translateY(-50%);
     left: 0.5rem;
 
